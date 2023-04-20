@@ -1,28 +1,52 @@
 import chalk from "chalk";
 import express from "express";
-import path, { dirname } from "path";
-import { fileURLToPath } from "url";
+import mongoose from "mongoose";
+import * as dotenv from "dotenv";
 import { engine, create } from "express-handlebars";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import AuthRoutes from "./routes/auth.js";
+import varMiddleware from "./middleware/var.js";
+import flash from "connect-flash";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import ProductsRoutes from "./routes/products.js";
+dotenv.config();
 
 const app = express();
 
-const hbs = create({defaultLayout: "main", extname: "hbs"});
+const hbs = create({ defaultLayout: "main", extname: "hbs" });
 
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", "./views");
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
-app.get("/about", (req, res) => {
-  res.render("about");
-});
+app.use(cookieParser());
+
+app.use(session({ secret: "Dima", resave: false, saveUninitialized: false}));
+app.use(flash());
+app.use(varMiddleware)
+app.use("/", AuthRoutes);
+app.use("/", ProductsRoutes);
+
+
 
 const PORT = process.env.PORT || 4100;
 app.listen(PORT, () =>
-  console.log(chalk.cyanBright(`Server is running on port ${PORT}...`))
+  console.log(chalk.bgRed(`Server is running on port ${PORT}...`))
 );
+
+
+
+const startApp = async () => {
+  try {
+    const mongo = await mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true});
+    console.log(chalk.bgYellow("MongoDB connected"));
+    return mongo;
+  } catch (error) {
+    console.log(error + "");
+  }
+};
+
+startApp();
