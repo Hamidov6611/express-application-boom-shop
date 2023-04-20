@@ -6,4 +6,4 @@ const genereteToken = userId => {
     return accessToken
 }
 
-export {genereteToken}
+export {genereteToken};
