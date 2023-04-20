@@ -14,7 +14,7 @@ router.get("/login", (req, res) => {
     isLogin: true,
     loginError: req.flash("loginError"),
   });
-});
+})
 
 router.get("/register", (req, res) => {
   if(req.cookies.token) {
