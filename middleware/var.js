@@ -3,4 +3,4 @@ export default function (req, res, next) {
     console.log(isAuth)
     res.locals.token = isAuth
     next();
-  }
+  };
