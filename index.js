@@ -42,7 +42,7 @@ app.listen(PORT, () =>
 const startApp = async () => {
   try {
     const mongo = await mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true});
-    console.log(chalk.bgYellow("MongoDB connected"));
+    console.log(chalk.redBright.bgYellow("MongoDB connected"));
     return mongo;
   } catch (error) {
     console.log(error + "");
