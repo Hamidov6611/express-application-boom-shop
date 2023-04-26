@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   const products = await Product.find({}).lean();
-  console.log(products)
+  console.log(products);
   res.render("index", {
     title: "Boom shop | Dima",
     products: products.reverse(),
