@@ -4,6 +4,7 @@ export default {
       return options.fn(this);
     }
 
+    
     return options.inverse(this);
   },
 };
