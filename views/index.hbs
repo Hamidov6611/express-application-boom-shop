@@ -3,15 +3,34 @@
     {{#each products}}
       <div class="col">
         <div class="card shadow-sm">
-          <img src='{{image}}'alt="">
+          <img src="{{image}}" alt="" />
           <div class="card-body">
             <p class="card-text fw-bold">{{title}}</p>
+            {{!-- <p>{{description}}</p> --}}
+            {{user}}
+            
+          </div>
+          
+        <div class="card-footer d-flex justify-content-between">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-primary">Detail</button>
+              {{#if @root.token}}
+                {{#ifequal user @root.userId}}
+                  <button type="button" class="btn btn-outline-secondary">Edit</button>
+                  <button type="button" class="btn btn-outline-danger">Delete</button>
+                {{/ifequal}}
+                 
+              {{/if}}
+             
+            </div>
+            <div>
               <small class="text-body-secondary fs-5">{{price}}.00$</small>
+            </div>
           </div>
         </div>
       </div>
     {{/each}}
   </div>
-{{else}} 
+{{else}}
   <p>No products</p>
 {{/if}}

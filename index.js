@@ -9,11 +9,13 @@ import flash from "connect-flash";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import ProductsRoutes from "./routes/products.js";
+import userMiddleware from "./middleware/user.js";
+import hbsHelpers from './utils/index.js'
 dotenv.config();
 
 const app = express();
 
-const hbs = create({ defaultLayout: "main", extname: "hbs" });
+const hbs = create({ defaultLayout: "main", extname: "hbs", helpers: hbsHelpers });
 
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
@@ -27,6 +29,7 @@ app.use(cookieParser());
 app.use(session({ secret: "Dima", resave: false, saveUninitialized: false }));
 app.use(flash());
 app.use(varMiddleware);
+app.use(userMiddleware)
 app.use("/", AuthRoutes);
 app.use("/", ProductsRoutes);
 
@@ -39,8 +42,7 @@ const startApp = async () => {
   try {
     const mongo = await mongoose.connect(
       process.env.MONGO_URI,
-      { useNewUrlParser: true },
-      console.log(chalk.redBright.bgYellow("MongoDB connected"))
+      { useNewUrlParser: true },console.log(chalk.redBright.bgYellow("MongoDB connected"))
     );
 
     return mongo;
