@@ -1,0 +1,12 @@
+.animate {
+    animation: animation .5s ease-in;
+}
+
+@keyframes animation {
+    0% {
+        transform: translateX(200px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

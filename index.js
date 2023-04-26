@@ -24,25 +24,25 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(session({ secret: "Dima", resave: false, saveUninitialized: false}));
+app.use(session({ secret: "Dima", resave: false, saveUninitialized: false }));
 app.use(flash());
-app.use(varMiddleware)
+app.use(varMiddleware);
 app.use("/", AuthRoutes);
 app.use("/", ProductsRoutes);
-
-
 
 const PORT = process.env.PORT || 4100;
 app.listen(PORT, () =>
   console.log(chalk.bgRed(`Server is running on port ${PORT}...`))
 );
 
-
-
 const startApp = async () => {
   try {
-    const mongo = await mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true});
-    console.log(chalk.redBright.bgYellow("MongoDB connected"));
+    const mongo = await mongoose.connect(
+      process.env.MONGO_URI,
+      { useNewUrlParser: true },
+      console.log(chalk.redBright.bgYellow("MongoDB connected"))
+    );
+
     return mongo;
   } catch (error) {
     console.log(error + "");

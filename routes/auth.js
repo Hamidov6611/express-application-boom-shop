@@ -2,13 +2,10 @@ import { Router } from "express";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { genereteToken } from "../services/token.js";
+import isAuth from "../middleware/isAuth.js";
 const router = Router();
 
-router.get("/login", (req, res) => {
-  if(req.cookies.token) {
-    res.redirect('/')
-    return
-  }
+router.get("/login", isAuth, (req, res) => {
   res.render("login", {
     title: "Login | Dima",
     isLogin: true,
@@ -16,7 +13,7 @@ router.get("/login", (req, res) => {
   });
 })
 
-router.get("/register", (req, res) => {
+router.get("/register", isAuth, (req, res) => {
   if(req.cookies.token) {
     res.redirect('/')
     return
@@ -38,7 +35,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      req.flash("loginError", "All fields is reuired");
+      req.flash("loginError", "All fields is required");
       res.redirect("/login");
       return;
     }
@@ -69,7 +66,7 @@ router.post("/register", async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
 
     if (!firstname || !lastname || !email || !password) {
-      req.flash("registerError", "All fields is reuired");
+      req.flash("registerError", "All fields is required");
       res.redirect("/register");
       return;
     }
