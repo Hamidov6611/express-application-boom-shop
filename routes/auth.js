@@ -11,12 +11,12 @@ router.get("/login", isAuth, (req, res) => {
     isLogin: true,
     loginError: req.flash("loginError"),
   });
-})
+});
 
 router.get("/register", isAuth, (req, res) => {
-  if(req.cookies.token) {
-    res.redirect('/')
-    return
+  if (req.cookies.token) {
+    res.redirect("/");
+    return;
   }
   res.render("register", {
     title: "Register | Dima",
@@ -25,10 +25,10 @@ router.get("/register", isAuth, (req, res) => {
   });
 });
 
-router.get('/logout', (req, res) => {
-	res.clearCookie("token")
-  res.redirect('/')
-})
+router.get("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
+});
 
 router.post("/login", async (req, res) => {
   try {
@@ -54,8 +54,8 @@ router.post("/login", async (req, res) => {
       res.redirect("/login");
       return;
     }
-    const token = genereteToken(existUser._id)
-    res.cookie('token', token, {httpOnly: true, secure: true})
+    const token = genereteToken(existUser._id);
+    res.cookie("token", token, { httpOnly: true, secure: true });
     res.redirect("/");
   } catch (error) {
     console.log(error + " ");
@@ -70,13 +70,13 @@ router.post("/register", async (req, res) => {
       res.redirect("/register");
       return;
     }
-    
-    const candidate = await User.findOne({email})
-    
-    if(candidate) {
-      req.flash("registerError", "User already exist")
-      res.redirect('/register')
-      return
+
+    const candidate = await User.findOne({ email });
+
+    if (candidate) {
+      req.flash("registerError", "User already exist");
+      res.redirect("/register");
+      return;
     }
 
     const hashedPassword = await bcrypt.hashSync(password, 10);
@@ -87,8 +87,8 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     };
     const user = await User.create(userData);
-    const token = genereteToken(user._id)
-    res.cookie('token', token, {httpOnly: true, secure: true})
+    const token = genereteToken(user._id);
+    res.cookie("token", token, { httpOnly: true, secure: true });
   } catch (error) {
     console.log(error);
   }
