@@ -3,17 +3,19 @@
     {{#each products}}
       <div class="col">
         <div class="card shadow-sm">
-          <img src="{{image}}" alt="" />
+          <img height="250" src="{{image}}" alt="" />
           <div class="card-body">
-            <p class="card-text fw-bold">{{title}}</p>
-            {{!-- <p>{{description}}</p> --}}
-            {{user}}
-            
+            <p class="card-text fw-bold">{{title}}</p>  
+            <div class="d-flex justify-content-between align-items-center">
+            <p class="p-0 m-0">{{formatDate createdAt}}</p> 
+              <small class="text-body-secondary fs-5">{{price}}.00$</small>
+            </div>
           </div>
           
         <div class="card-footer d-flex justify-content-between">
             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-outline-primary">Detail</button>
+              <a type="button" class="btn btn-outline-primary" 
+              href='/product/{{_id}}'>Detail</a>
               {{#if @root.token}}
                 {{#ifequal user @root.userId}}
                   <button type="button" class="btn btn-outline-secondary">Edit</button>
@@ -22,9 +24,6 @@
                  
               {{/if}}
              
-            </div>
-            <div>
-              <small class="text-body-secondary fs-5">{{price}}.00$</small>
             </div>
           </div>
         </div>

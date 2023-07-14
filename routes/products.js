@@ -6,17 +6,20 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   const products = await Product.find({}).lean();
-  console.log(products);
   res.render("index", {
     title: "Boom shop | Dima",
     products: products.reverse(),
     userId: req.userId ? req.userId.toString() : null,
   });
 });
-router.get("/products", (req, res) => {
-  res.render("product", {
+router.get("/products", async (req, res) => {
+  const user = req.userId ? req.userId.toString() : null;
+  const myProduct = await Product.find({ user }).populate("user").lean();
+  console.log(req.userId);
+  res.render("products", {
     title: "Products | Dima",
     isProducts: true,
+    myProduct: myProduct,
   });
 });
 router.get("/add", authMiddleware, (req, res) => {
@@ -25,6 +28,18 @@ router.get("/add", authMiddleware, (req, res) => {
     isAdd: true,
     errorAddProduct: req.flash("errorAddProduct"),
   });
+});
+
+router.get("/product/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const product = await Product.findById(id).populate("user").lean();
+    res.render("product.hbs", {
+      product: product,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.post("/add-products", userMiddleware, async (req, res) => {

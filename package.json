@@ -20,8 +20,9 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.4",
-    "express-session": "^1.17.3", 
+    "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
     "mongoose": "^7.0.3",
     "session": "^0.1.0"
   },
