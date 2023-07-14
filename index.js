@@ -42,7 +42,7 @@ const startApp = async () => {
   try {
     const mongo = await mongoose.connect(
       process.env.MONGO_URI,
-      { useNewUrlParser: true },console.log(chalk.redBright.bgYellow("MongoDB connected"))
+      { useNewUrlParser: true },console.log(chalk.bgGreen("MongoDB connected"))
     );
 
     return mongo;
